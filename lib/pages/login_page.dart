@@ -1,12 +1,19 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smarty_house/authenticator/authentication.dart';
 
 
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({ Key? key }) : super(key: key);
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,65 +48,22 @@ class LoginPage extends StatelessWidget {
                       ),
                   
                     ),
-                  SizedBox(height: 30,),
-                  TextField(
-                    style: TextStyle(color: Colors.white),
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(color: Colors.white),
-                      focusColor: Colors.white,
-                      labelText: 'Email',
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 2.0),
-                        borderRadius: BorderRadius.circular(16)
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16)
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        
-                        borderSide: BorderSide(color: Colors.white,),
-                        borderRadius: BorderRadius.circular(16)
-                      ),
-
+                  SizedBox(height: 50,),
+                   FutureBuilder(
+                future: Authentication.initializeFirebase(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Error initializing Firebase');
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                    return GoogleSignInButton();
+                  }
+                  return CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Colors.white,
                     ),
-                  ),
-                  SizedBox(height: 30,),
-                  TextField(
-                    style: TextStyle(color: Colors.white),
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(color: Colors.white),
-                      focusColor: Colors.white,
-                      labelText: 'Contraseña',
-                      // alignLabelWithHint: true,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 2.0),
-                        borderRadius: BorderRadius.circular(16)
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16)
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        
-                        borderSide: BorderSide(color: Colors.white,),
-                        borderRadius: BorderRadius.circular(16)
-                      ),
-
-                    ),
-                  ),
-                  SizedBox(height: 30,),
-                  ElevatedButton(
-                    
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF67ECDF),
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),),
-                    onPressed: (){
-                      Navigator.pushNamed(context, "menu");
-                    }, 
-                    child: Text("Continuar")
-                  ),
+                  );
+                },
+              ),
                 ]
               ),
             ),
@@ -109,5 +73,91 @@ class LoginPage extends StatelessWidget {
     );
     
   }
-
 }
+
+
+
+
+class GoogleSignInButton extends StatefulWidget {
+  @override
+  _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
+}
+
+class _GoogleSignInButtonState extends State<GoogleSignInButton> {
+  bool _isSigningIn = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: _isSigningIn
+          ? CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            )
+          : OutlinedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                ),
+              ),
+              onPressed: () async {
+                setState(() {
+                  _isSigningIn = true;
+                });
+
+                User? user =
+                    await Authentication.signInWithGoogle(context: context);
+
+                setState(() {
+                  _isSigningIn = false;
+                });
+
+                if (user != null) {
+                  Navigator.pushNamed(context, 'menu');
+                }
+              },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image(
+                image: AssetImage("assets/google_logo.png"),
+                height: 35.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  'Sign in with Google',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
