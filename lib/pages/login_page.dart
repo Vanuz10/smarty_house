@@ -111,9 +111,14 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 User? user =
                     await Authentication.signInWithGoogle(context: context);
 
+                
+                // TODO: Add a method call to the Google Sign-In authentication
+
+
                 setState(() {
                   _isSigningIn = false;
                 });
+
 
                 if (user != null) {
                   Navigator.pushNamed(context, 'menu');
@@ -144,6 +149,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
           ),
         ),
       ),
+             
     );
   }
 }
