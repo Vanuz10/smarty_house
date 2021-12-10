@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "296940500071",
+    "project_id": "smarty-house-88c82",
+    "storage_bucket": "smarty-house-88c82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296940500071:android:dfec2405502066837ad0c2",
+        "android_client_info": {
+          "package_name": "com.example.smarty_house"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296940500071-pvqhvkdjlej3h2gendda3asj6sv53j7e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQdAXGEHH8GMnSqgvIzemY3aH9LayP6Nw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296940500071-pvqhvkdjlej3h2gendda3asj6sv53j7e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
