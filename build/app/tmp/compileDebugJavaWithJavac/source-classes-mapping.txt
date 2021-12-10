@@ -1,0 +1,4 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/example/smarty_house/BuildConfig.java
+ com.example.smarty_house.BuildConfig

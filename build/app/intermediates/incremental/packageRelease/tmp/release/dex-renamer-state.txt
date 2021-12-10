@@ -1,0 +1,4 @@
+#Thu Dec 09 20:32:28 COT 2021
+base.0=C\:\\Users\\Vanuz\\Documents\\Flutter Projects\\smarty_house\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
